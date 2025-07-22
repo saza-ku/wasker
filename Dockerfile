@@ -42,7 +42,6 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libc6 \
     libstdc++6
-    
 
 ENV PATH=/usr/local/llvm/bin:$PATH
 ENV LLVM_SYS_150_PREFIX=/usr/local/llvm/clang+llvm-15.0.0-x86_64-linux-gnu-rhel-8.4
