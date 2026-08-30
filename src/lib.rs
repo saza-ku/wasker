@@ -4,5 +4,6 @@
 pub mod compiler;
 pub mod environment;
 pub mod inkwell;
+pub mod inkwell_helpers;
 pub mod insts;
 pub mod section;
