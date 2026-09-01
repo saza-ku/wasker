@@ -246,8 +246,10 @@ fn setup(environment: &mut Environment<'_, '_>) -> Result<()> {
     // Call memory_base
     let linear_memory_offset = environment
         .builder
-        .build_call(memory_base_fn, &[], "linear_memory_offset")?.try_as_basic_value()
-        .unwrap_basic();
+        .build_call(memory_base_fn, &[], "linear_memory_offset")?
+        .try_as_basic_value()
+        .basic()
+        .ok_or_else(|| anyhow!("memory_base must return a pointer"))?;
     environment.builder.build_store(
         linear_memory_offset_global.as_pointer_value(),
         linear_memory_offset.into_pointer_value(),

@@ -4,7 +4,7 @@ pub(crate) mod control;
 mod memory;
 mod numeric;
 
-use anyhow::{bail, Context, Ok, Result};
+use anyhow::{anyhow, bail, Context, Ok, Result};
 use inkwell::{
     types::{BasicType, BasicTypeEnum},
     values::{BasicMetadataValueEnum, BasicValue, FunctionValue, PointerValue},
@@ -1416,8 +1416,10 @@ fn helper_code_gen_llvm_insts<'a>(
 ) -> Result<()> {
     let res = environment
         .builder
-        .build_call(function, args, "")?.try_as_basic_value()
-        .unwrap_basic();
+        .build_call(function, args, "")?
+        .try_as_basic_value()
+        .basic()
+        .ok_or_else(|| anyhow!("called function must return a value"))?;
     environment.stack.push(res);
     Ok(())
 }
